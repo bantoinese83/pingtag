@@ -32,7 +32,7 @@ flowchart TD
   STORAGE[Storage]
   DB[(PostgreSQL DB)]
   PRISMA[Prisma ORM]
-  SEARCH[(Elasticsearch)\n(optional)]
+  SEARCH[(Elasticsearch)<br/>(optional)]
 
   User <--> FE
   FE <--> BE
