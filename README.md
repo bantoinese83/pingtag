@@ -24,15 +24,15 @@ A social media platform driven by **interests, not people**. Users discover and 
 
 ```mermaid
 flowchart TD
-  User((User))
-  FE[Frontend (React + Vite + TypeScript)]
-  BE[Backend (Fastify / Supabase Edge Functions)]
-  SUPA[Supabase Platform]
-  AUTH[Auth]
-  STORAGE[Storage]
-  DB[(PostgreSQL DB)]
-  PRISMA[Prisma ORM]
-  SEARCH[(Elasticsearch)<br/>(optional)]
+  User["User"]
+  FE["Frontend: React + Vite + TypeScript"]
+  BE["Backend: Fastify / Supabase Edge Functions"]
+  SUPA["Supabase Platform"]
+  AUTH["Auth"]
+  STORAGE["Storage"]
+  DB["PostgreSQL DB"]
+  PRISMA["Prisma ORM"]
+  SEARCH["Elasticsearch (optional)"]
 
   User <--> FE
   FE <--> BE
@@ -44,9 +44,6 @@ flowchart TD
   PRISMA <--> DB
   FE -.-> SEARCH
   BE -.-> SEARCH
-
-  classDef optional fill:#f9fafb,stroke:#bbb,stroke-dasharray: 5 5;
-  class SEARCH optional;
 ```
 
 ---
