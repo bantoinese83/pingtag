@@ -3,8 +3,14 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet\"",
+    "dev": "npm run dev --workspaces"
   },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",

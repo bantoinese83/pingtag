@@ -413,26 +413,75 @@ CREATE TABLE "Notification" (
 
 ---
 
-## API Endpoints (Sample)
+## API Endpoints
 
-#### Auth
-- `POST /auth/register`
-- `POST /auth/login`
-- `GET /auth/me`
+### Auth
+- `POST   /auth/register` — Register a new user
+- `POST   /auth/login` — Login and receive a token
+- `POST   /auth/logout` — Logout (invalidate token)
+- `GET    /auth/me` — Get current authenticated user
+- `POST   /auth/refresh` — Refresh JWT token
+- `POST   /auth/password/forgot` — Request password reset
+- `POST   /auth/password/reset` — Reset password
 
-#### Posts
-- `GET /tags/:tagId/posts`
-- `POST /posts`
-- `DELETE /posts/:id`
+### Users
+- `GET    /users/:id` — Get user profile by ID
+- `GET    /users/username/:username` — Get user by username
+- `PATCH  /users/:id` — Update user profile (bio, picture, etc.)
+- `DELETE /users/:id` — Delete user account
+- `GET    /users/:id/posts` — Get posts by user
+- `GET    /users/:id/followed-tags` — Get tags followed by user
+- `GET    /users/:id/notifications` — Get notifications for user
 
-#### Tags
-- `GET /tags`
-- `POST /tags/follow`
-- `GET /tags/:id`
+### Tags
+- `GET    /tags` — List all tags (with search/filter)
+- `POST   /tags` — Create a new tag (admin/mod only)
+- `GET    /tags/:id` — Get tag details
+- `PATCH  /tags/:id` — Update tag (admin/mod only)
+- `DELETE /tags/:id` — Delete tag (admin/mod only)
+- `POST   /tags/:id/follow` — Follow a tag
+- `DELETE /tags/:id/follow` — Unfollow a tag
+- `GET    /tags/:id/followers` — List users following a tag
+- `GET    /tags/:id/posts` — List posts for a tag
+- `GET    /tags/:id/chat` — Get chat messages for a tag
 
-#### Chat
-- `GET /chat/:tagId`
-- `POST /chat/:tagId`
+### Posts
+- `GET    /posts` — List all posts (with search/filter)
+- `POST   /posts` — Create a new post
+- `GET    /posts/:id` — Get post by ID
+- `PATCH  /posts/:id` — Edit post
+- `DELETE /posts/:id` — Delete post
+- `POST   /posts/:id/like` — Like a post
+- `DELETE /posts/:id/like` — Unlike a post
+- `POST   /posts/:id/report` — Report a post
+
+### Chat (per Tag)
+- `GET    /chat/:tagId` — Get messages for a tag chatroom
+- `POST   /chat/:tagId` — Send a message to tag chatroom
+- `GET    /chat/:tagId/messages/:messageId` — Get a specific message
+- `DELETE /chat/:tagId/messages/:messageId` — Delete a message (self or mod)
+- `POST   /chat/:tagId/messages/:messageId/report` — Report a message
+
+### Notifications
+- `GET    /notifications` — List notifications for current user
+- `PATCH  /notifications/:id/read` — Mark notification as read
+- `PATCH  /notifications/read-all` — Mark all as read
+
+### Media (Supabase Storage)
+- `POST   /media/upload` — Upload media (image/video)
+- `GET    /media/:id` — Get media by ID or URL
+- `DELETE /media/:id` — Delete media (owner or admin)
+
+### Search (Optional/Advanced)
+- `GET    /search/tags?q=...` — Search tags
+- `GET    /search/posts?q=...` — Search posts
+- `GET    /search/users?q=...` — Search users
+
+### Admin/Moderation (Optional)
+- `GET    /admin/reports` — List reported posts/messages
+- `PATCH  /admin/posts/:id/moderate` — Moderate a post
+- `PATCH  /admin/messages/:id/moderate` — Moderate a chat message
+- `GET    /admin/users` — List all users
 
 ---
 
@@ -454,7 +503,5 @@ This project is [MIT](LICENSE) licensed.
 
 ---
 
-## 📫 Contact
 
-For questions or feedback, please open an issue or contact [your.email@example.com](mailto:your.email@example.com).
 
