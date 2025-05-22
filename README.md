@@ -407,8 +407,22 @@ CREATE TABLE "Notification" (
 
 ## ☁️ Supabase Storage Setup
 
-- Create a storage bucket in your Supabase project for media uploads (images, videos, etc.).
-- Set the bucket name and credentials in your `.env` file as shown above.
+- **Create three storage buckets in your Supabase project:**
+  - `avatars` — for user profile pictures
+  - `images` — for post images
+  - `videos` — for post videos
+  
+  You can use the Supabase dashboard:
+  Go to **Storage** → **Create bucket** → Name each bucket as above (set public/private and policies as needed).
+
+- Set the bucket names and credentials in your `.env` file as shown below:
+
+```env
+SUPABASE_AVATARS_BUCKET=avatars
+SUPABASE_IMAGES_BUCKET=images
+SUPABASE_VIDEOS_BUCKET=videos
+```
+
 - Ensure your Supabase service role key has the correct permissions for storage operations.
 
 ---
@@ -482,6 +496,32 @@ CREATE TABLE "Notification" (
 - `PATCH  /admin/posts/:id/moderate` — Moderate a post
 - `PATCH  /admin/messages/:id/moderate` — Moderate a chat message
 - `GET    /admin/users` — List all users
+
+---
+
+## 🏁 Running with npm Workspaces (from the Root)
+
+If you prefer, you can run frontend and backend scripts directly from the project root using npm workspaces:
+
+```bash
+# Start the frontend dev server
+npm run dev --workspace=frontend
+
+# Start the backend dev server
+npm run dev --workspace=backend
+
+# Run lint for all workspaces
+npm run lint --workspaces
+
+# Run tests for all workspaces
+npm run test --workspaces
+```
+
+Or, to run both frontend and backend dev servers concurrently (if you have a root-level script set up):
+
+```bash
+npm run dev
+```
 
 ---
 

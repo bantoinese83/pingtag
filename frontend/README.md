@@ -52,3 +52,7 @@ export default tseslint.config({
   },
 })
 ```
+
+# Tailwind CSS
+
+This project uses [Tailwind CSS](https://tailwindcss.com/) for utility-first styling. You can use Tailwind classes in any component. The configuration is in `tailwind.config.js`.
