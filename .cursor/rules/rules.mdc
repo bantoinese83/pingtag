@@ -1,0 +1,220 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## 📏 PingTag Development Rules & Guidelines (`rules.md`)
+
+### 👨‍💻 General Principles
+
+1. **Readability > Cleverness:** Code should be easy to read and understand for any team member.
+2. **Modularity:** Split logic into small, focused components, services, or utilities.
+3. **Self-Documenting Code:** Favor clear naming and structure over comments. If a comment is needed, consider refactoring.
+4. **Meaningful Names:** Use descriptive names for variables, functions, and files. Avoid generic names except in trivial scopes.
+5. **Single Responsibility:** Each file, function, and component should do one thing only.
+6. **Atomic Commits:** Each commit should represent a single logical change.
+7. **One Feature per Branch:** Don't mix unrelated changes in a single branch or PR.
+
+---
+
+### 🧠 TypeScript Rules
+
+- Always use `interface` or `type` for object structures.
+- Prefer `unknown` over `any`. Explicitly narrow types.
+- Never use `@ts-ignore` unless absolutely necessary, and always explain why.
+- Type all function parameters and return values.
+- Use non-null assertions (`!`) only when you are 100% certain.
+- Use enums or union types for fixed sets of values.
+
+---
+
+### 🎨 Frontend Rules (React + Vite + TypeScript)
+
+- Use **functional components** only.
+- All components must be typed with `FC<Props>` or explicit types.
+- Use custom hooks (`/hooks/useXyz.ts`) for shared logic.
+- Place reusable UI in `/components`.
+- API logic and mutations go in `/services`.
+- Use CSS Modules or Tailwind; avoid inline styles.
+- Use React Query (or your global state lib) for data-fetching.
+- All async UI must have loading and error states.
+- Use `/src/constants/` and `/src/config/` for design tokens (colors, text, etc.).
+- Use `/shared/constants/` for values shared with backend.
+- Use `/context` for React providers and context logic.
+- Use `/assets` for static files (images, fonts, etc.).
+- Use `/utils` for pure helper functions.
+
+### 🗃 State Management
+
+- Use **React Query** for all server state (data from API, Supabase, etc.).
+- Use **React Context** for simple, app-wide UI state (e.g., theme, auth user).
+- For more complex or cross-cutting state, prefer a minimal state library like **Zustand** or **Jotai**. Use Redux Toolkit only if necessary.
+- Place all custom state hooks in `/src/hooks/`.
+- Place all context providers in `/src/context/`.
+- Avoid prop drilling; prefer context or hooks for shared state.
+- Do not use legacy state management libraries (MobX, Recoil, etc.) unless discussed with the team.
+
+---
+
+### ⚙️ Backend Rules (Fastify + Prisma + Supabase + TypeScript)
+
+- **Routes:**
+  - Validate all input with Zod or Fastify's schema.
+  - Return proper HTTP status codes.
+  - Handle errors explicitly; never fail silently.
+- **Business Logic:** Lives in `/services/`, not in route handlers.
+- **Prisma Models:** Must match `schema.prisma` and contain no logic.
+- **Supabase:** Use for Auth, Storage, and Database. No custom auth or AWS S3.
+- **Environment:** Keep secrets in `.env`, never in code.
+- **Logging:** Use a consistent logger (e.g., Pino). Never log sensitive data.
+- **Async:** Use `async/await`—avoid raw `.then()` chains.
+- **Constants/Config:** Use `/src/constants/` and `/src/config/`.
+- **Shared Code:** Use `/shared/constants/` for values shared with frontend.
+
+---
+
+### 🧪 Testing Guidelines
+
+- **Unit Test:** All business logic functions in isolation.
+- **Mocks:** Use mocks/stubs for external dependencies.
+- **Frontend:** Use Vitest or Jest + @testing-library/react.
+- **Backend:** Use Jest or tap for routes/services.
+- **Coverage:** Aim for 80%+ on critical features.
+- **Test Naming:** Use descriptive test and describe block names.
+
+---
+
+### 🧹 Folder Structure & Naming
+
+#### Frontend
+
+```
+/src
+  /components     // UI components
+  /hooks          // Custom React hooks
+  /pages          // Page-level components
+  /services       // API calls
+  /types          // Shared TS types
+  /utils          // Utility/helper functions
+  /constants      // Global constants (colors, text, etc.)
+  /context        // React context/providers
+  /assets         // Static assets (images, fonts, etc.)
+  /config         // App-wide config (theme, env, etc.)
+```
+
+#### Backend
+
+```
+/src
+  /routes         // Fastify route files
+  /services       // Business logic
+  /models         // Prisma models
+  /plugins        // Fastify plugins (auth, DB, logger)
+  /schemas        // Zod or JSON schemas
+  /utils          // Utility/helper functions
+  /constants      // Global constants (status codes, etc.)
+  /config         // Server config (env, logger, etc.)
+/prisma
+  /schema.prisma
+  /migrations
+```
+
+#### Shared
+
+```
+/shared
+  /types          // Shared types/interfaces
+  /constants      // Shared constants/enums
+  /utils          // Shared utility functions
+```
+
+- **File names:** `camelCase.ts` or `PascalCase.tsx` for React.
+- **Folder names:** all lowercase, no special characters.
+
+---
+
+### 🎨 Code Style
+
+- Use Prettier for formatting. Run `prettier --write .` before committing.
+- Use ESLint for linting. Fix all lint errors before PR.
+- Use trailing commas in multi-line objects/arrays.
+- Use single quotes for strings (except in JSON).
+- Always use semicolons.
+- Prefer destructuring for objects/arrays.
+- Use explicit return types for all exported functions.
+- Keep imports organized: external libraries first, then internal modules, then styles/assets.
+- Limit file length to 300 lines and function length to 40 lines where possible.
+
+---
+
+### 📝 Commit Message Conventions
+
+- Use [Conventional Commits](mdc:https:/www.conventionalcommits.org/en/v1.0.0):
+  - `feat:` for new features
+  - `fix:` for bug fixes
+  - `chore:` for maintenance
+  - `refactor:` for code refactoring
+  - `test:` for adding or updating tests
+  - `docs:` for documentation changes
+  - `style:` for formatting, missing semi colons, etc.
+- Example: `feat: add tag follow endpoint`
+- Use the imperative mood: "add" not "added" or "adds".
+- Reference issues or tasks in the body when relevant.
+
+---
+
+### 🚀 Onboarding Tips
+
+- Clone the repo and read the README.md fully before starting.
+- Set up your `.env` file(s) as described in the README.
+- Run `npm install` in both `frontend` and `backend`.
+- Run all tests with `npm run test` before pushing.
+- Use the project structure and naming conventions above.
+- Ask questions early—don't guess if you're unsure about a pattern or rule.
+- Review open and merged PRs for examples of good code and process.
+- Use TODO comments with your name for any incomplete work (`// TODO(yourname): ...`).
+
+---
+
+### ✅ Pull Request Checklist
+
+- [ ] Clear PR title (`feat:`, `fix:`, `chore:`, `refactor:`)
+- [ ] Linted and formatted (`prettier`, `eslint`)
+- [ ] Tests written/updated
+- [ ] Includes loading/error handling if async
+- [ ] Linked to a task/issue (if applicable)
+- [ ] No secrets or credentials in code or PR
+
+---
+
+### 💬 Communication
+
+- Use TODO comments with your name (`// TODO(Bryan): clean up logic`)
+- Don't push directly to `main` or `dev` branches – use PRs
+- Keep PRs under 300 lines if possible
+- Document all breaking changes in PR description
+
+---
+
+### 🛡 Security & Performance
+
+- Validate and sanitize all user input (especially backend).
+- Never log or expose sensitive data.
+- Use indexes for frequently queried fields in Prisma.
+- Optimize for **tags-first search performance** (Elasticsearch).
+- Use rate limiting and CORS as appropriate.
+
+---
+
+### 🌐 Supabase Integration
+
+- Use Supabase for Auth (JWT + OAuth), Storage (media uploads), and PostgreSQL Database.
+- Store Supabase credentials and bucket names in environment variables (`.env`).
+- Follow the README for bucket setup and Supabase project configuration.
+- Use Prisma as a type-safe ORM for the Supabase PostgreSQL database.
+- Use `/shared/` for code shared between frontend and backend (types, constants, utils).
+- Use Supabase's RBAC and storage policies for security.
+
+---
+
+
